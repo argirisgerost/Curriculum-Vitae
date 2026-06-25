@@ -10,6 +10,7 @@
   body {
     font-family: 'Segoe UI', Arial, Helvetica, sans-serif; color: var(--text);
     font-size: 10pt; line-height: 1.4; position: relative;
+    min-height: 271mm;   /* fill the full A4 content height so the grey sidebar reaches the bottom */
     background: linear-gradient(to right, var(--side) 0 var(--sideW), #fff var(--sideW) 100%);
   }
 
@@ -28,10 +29,10 @@
 
   .side-block { margin-top: 16px; }
   .side-block h3 { font-size: 9.5pt; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #e0e0e3; }
-  .sb-body { padding-left: 18px; }
+  .sb-body { padding-left: 0; }
 
-  .contact-item { position: relative; font-size: 9pt; color: var(--text); margin-bottom: 7px; }
-  .contact-item svg { position: absolute; left: -18px; top: 1.5px; }
+  .contact-item { display: flex; align-items: center; gap: 8px; font-size: 9pt; color: var(--text); margin-bottom: 7px; }
+  .contact-item svg { flex: none; }
   .contact-item a { color: var(--text); text-decoration: none; word-break: break-all; }
 
   .edu-side .deg { font-weight: 700; font-size: 9.3pt; display: block; }
