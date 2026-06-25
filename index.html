@@ -181,7 +181,16 @@
   }
   .social a:hover { border-color: var(--accent); color: var(--accent-2); transform: translateY(-2px); }
 
-  footer { text-align: center; padding: 40px 0; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--border); margin-top: 30px; }
+  footer { padding: 28px 0; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--border); margin-top: 30px; }
+  .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .otw-toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+  .otw-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .otw-toggle .switch { position: relative; width: 40px; height: 22px; border-radius: 999px; background: var(--card-2); border: 1px solid var(--border); transition: background .2s, border-color .2s; flex: none; }
+  .otw-toggle .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); transition: transform .2s, background .2s; }
+  .otw-toggle input:checked + .switch { background: var(--accent-dim); border-color: var(--accent); }
+  .otw-toggle input:checked + .switch::after { transform: translateX(18px); background: var(--accent-2); }
+  .otw-toggle input:focus-visible + .switch { box-shadow: 0 0 0 3px var(--accent-dim); }
+  .otw-toggle .otw-label { color: var(--muted); font-size: .85rem; }
 
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
   .reveal.in { opacity: 1; transform: none; }
@@ -226,7 +235,7 @@
 <a id="top"></a>
 <section class="hero">
   <div class="wrap reveal">
-    <span class="pill"><span class="dot"></span> Open to opportunities</span>
+    <span class="pill" id="openToWork"><span class="dot"></span> Open to work</span>
     <h1>I'm <span class="accent">Argyrios Gerostergiou</span>, and I make software reliable.</h1>
     <p class="lead">
       Software Engineer in Test ensuring high-quality software through thorough manual and
@@ -481,7 +490,14 @@
 </div>
 
 <footer>
-  <div class="wrap">© <span id="year"></span> Argyrios Gerostergiou</div>
+  <div class="wrap footer-inner">
+    <span>© <span id="year"></span> Argyrios Gerostergiou</span>
+    <label class="otw-toggle" title="Toggle the 'Open to work' badge">
+      <input type="checkbox" id="otwToggle" />
+      <span class="switch"></span>
+      <span class="otw-label">Open to work badge</span>
+    </label>
+  </div>
 </footer>
 
 <script>
@@ -545,6 +561,18 @@
 
   modal.addEventListener('click', e => { if (e.target.hasAttribute('data-close')) closePdf(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closePdf(); });
+
+  // "Open to work" badge toggle — persists the choice in this browser.
+  const badge = document.getElementById('openToWork');
+  const otw = document.getElementById('otwToggle');
+  const saved = localStorage.getItem('openToWork');
+  const isOn = saved === null ? true : saved === 'true';   // default: shown
+  function applyOtw(on) { badge.style.display = on ? '' : 'none'; otw.checked = on; }
+  applyOtw(isOn);
+  otw.addEventListener('change', () => {
+    localStorage.setItem('openToWork', otw.checked);
+    applyOtw(otw.checked);
+  });
 </script>
 </body>
 </html>
