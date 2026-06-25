@@ -84,6 +84,8 @@
   nav.links a { color: var(--muted); font-size: .92rem; font-weight: 500; transition: color .2s; }
   nav.links a:hover { color: var(--text); }
   nav.links a.active { color: var(--accent-2); }
+  .nav-right { display: flex; align-items: center; gap: 18px; }
+  .nav-cv { padding: 8px 16px; font-size: .88rem; }
   .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
 
   /* ===================== HERO ===================== */
@@ -227,14 +229,17 @@
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
     <a href="#top" class="logo">Curriculum <span>Vitae</span></a>
-    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" id="navToggle">☰</button>
-    <nav class="links" id="navLinks">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#education">Education</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <div class="nav-right">
+      <nav class="links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="Argyrios-Gerostergiou-CV.pdf" class="btn primary nav-cv" download>Download CV ↓</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false" id="navToggle">☰</button>
+    </div>
   </div>
 </header>
 
@@ -249,9 +254,6 @@
       Ensuring high-quality software through thorough manual and automated testing.
       Front-end with TypeScript &amp; Playwright, back-end with C# &amp; xUnit.
     </p>
-    <div class="cta-row">
-      <a href="Argyrios-Gerostergiou-CV.pdf" class="btn primary" download>Download CV ↓</a>
-    </div>
   </div>
 </section>
 
