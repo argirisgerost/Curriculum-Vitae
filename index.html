@@ -65,6 +65,7 @@
   }
 
   a { color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; border-radius: 4px; }
 
   .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
@@ -72,7 +73,7 @@
   header.nav {
     position: sticky; top: 0; z-index: 50;
     backdrop-filter: blur(12px);
-    background: rgba(11,15,23,0.72);
+    background: rgba(10,10,11,0.72);
     border-bottom: 1px solid transparent;
     transition: border-color .3s ease, background .3s ease;
   }
@@ -162,9 +163,6 @@
   .cert h4 .ext { color: var(--accent-2); font-size: .8rem; opacity: 0; transition: opacity .2s; }
   a.cert:hover h4 .ext { opacity: 1; }
   .cert p { color: var(--muted); font-size: .83rem; margin-top: 2px; }
-  .cert-group-title { display: flex; align-items: center; gap: 10px; margin: 38px 0 16px; font-size: 1.1rem; font-weight: 700; }
-  .cert-group-title .ic { width: 30px; height: 30px; border-radius: 8px; background: var(--accent-dim); border: 1px solid var(--border); display: grid; place-items: center; font-size: 1rem; }
-  .cert-group-title .count { color: var(--muted); font-weight: 500; font-size: .85rem; }
 
   /* PDF popup viewer */
   .pdf-modal { position: fixed; inset: 0; z-index: 100; display: none; }
