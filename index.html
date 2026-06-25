@@ -224,75 +224,48 @@
   }
 
   /* ===================== PRINT / CV ===================== */
-  /* "Download CV" calls window.print(); these rules turn the live page into a
-     clean, light, single-source CV so the PDF always matches the site content. */
+  /* "Download CV" builds #print-cv from the live page, then prints. These rules
+     hide the site and render #print-cv as the two-column sidebar CV. */
+  #print-cv { display: none; }
   @media print {
-    @page { margin: 14mm; }
-    :root {
-      --bg: #ffffff; --bg-soft: #ffffff; --card: #ffffff; --card-2: #f4f4f5;
-      --border: #d8d8dc; --text: #1c2230; --muted: #555b66;
-      --accent: #111317; --accent-2: #111317; --accent-dim: #f0f0f2; --shadow: none;
+    @page { size: A4; margin: 13mm 0; }
+    body > *:not(#print-cv) { display: none !important; }
+    html, body { background: #fff !important; }
+    #print-cv {
+      display: block; position: relative; color: #1c2230; font-size: 10pt; line-height: 1.4;
+      font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      min-height: 271mm;
+      background: linear-gradient(to right, #f2f2f3 0 33%, #fff 33% 100%);
     }
-    html, body { background: #fff !important; color: var(--text); line-height: 1.4; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    body::before { display: none !important; }
-    header.nav, .pdf-modal, footer { display: none !important; }
-    .reveal { opacity: 1 !important; transform: none !important; }
-    a { color: var(--text) !important; text-decoration: none; }
 
-    .wrap { max-width: none; padding: 0; }
-    section { padding: 8px 0 !important; }
+    /* sidebar */
+    #print-cv .pcv-sidebar { position: absolute; top: 0; left: 0; width: 33%; padding: 0 7mm 0 11mm; }
+    #print-cv .pcv-name { font-size: 13.5pt; font-weight: 800; letter-spacing: -.4px; line-height: 1.1; color: #14141a; white-space: nowrap; }
+    #print-cv .pcv-photo { width: 100%; aspect-ratio: 1 / 1; border-radius: 50%; margin: 14px 0 6px; overflow: hidden; border: 2px solid #e0e0e3; }
+    #print-cv .pcv-photo img { width: 100%; height: 100%; object-fit: cover; }
+    #print-cv .pcv-block { margin-top: 16px; }
+    #print-cv .pcv-block h3 { font-size: 9.5pt; text-transform: uppercase; letter-spacing: 1px; color: #14141a; margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #d9d3ee; }
+    #print-cv .pcv-contact { display: flex; align-items: center; gap: 8px; font-size: 9pt; margin-bottom: 7px; }
+    #print-cv .pcv-contact svg { flex: none; }
+    #print-cv .pcv-contact a { color: #1c2230; text-decoration: none; word-break: break-all; }
+    #print-cv .pcv-edu .deg { font-weight: 700; font-size: 9.3pt; display: block; }
+    #print-cv .pcv-edu .meta { color: #64646b; font-size: 8.3pt; display: block; }
+    #print-cv .pcv-cert { margin-bottom: 9px; }
+    #print-cv .pcv-cert .c-name { font-weight: 700; font-size: 9pt; display: block; }
+    #print-cv .pcv-cert .c-meta { color: #64646b; font-size: 8pt; }
+    #print-cv .pcv-cert .c-sub { color: #64646b; font-size: 7.6pt; margin-top: 2px; line-height: 1.35; display: block; }
 
-    /* header block */
-    .hero { padding: 0 0 6px !important; }
-    .hero .eyebrow { display: none; }
-    .hero h1 { font-size: 24pt !important; color: var(--accent) !important; filter: none !important; -webkit-text-fill-color: currentColor !important; margin-bottom: 2px; }
-    .hero h1 .accent { background: none !important; color: var(--accent) !important; -webkit-text-fill-color: currentColor !important; }
-    .hero .tagline { font-size: 12pt !important; margin-top: 4px; }
-    .hero .lead { font-size: 10pt !important; margin-top: 6px; color: var(--muted); }
-
-    /* section titles: left aligned, no decorative rules */
-    .section-title { justify-content: flex-start; gap: 0; margin-bottom: 8px; }
-    .section-title::before { display: none; }
-    .section-title .rule { display: none; }
-    .section-title h2 { font-size: 12.5pt; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
-
-    /* about */
-    .about-top { gap: 18px; }
-    .about-photo { width: 28mm; height: 28mm; box-shadow: none; border: 1px solid var(--border); }
-    .about p { font-size: 10pt; }
-    .facts { gap: 10px; margin-top: 14px; }
-    .fact { background: #fff; border: 1px solid var(--border); padding: 10px 12px; }
-    .fact .big { font-size: 1.1rem; color: var(--accent); }
-
-    /* timeline */
-    .tl-item { padding-bottom: 12px; }
-    .tl-item h3 { font-size: 11pt; }
-    .tl-item li, .tl-item .org { font-size: 9.5pt; }
-    .tl-item::before { background: #fff; border-color: var(--accent); }
-    .tl-item::after { background: var(--border); }
-    .tl-item .date, .tl-item li::before { color: var(--accent) !important; }
-
-    /* skills + certs — force multi-column (print width is below the mobile breakpoint) */
-    .facts { grid-template-columns: repeat(3, 1fr) !important; }
-    .skill-groups { grid-template-columns: repeat(2, 1fr) !important; }
-    .certs { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
-    .skill-groups { gap: 10px; }
-    .skill-card { padding: 12px 14px !important; }
-    .cert { padding: 10px 12px !important; }
-    .skill-card, .cert { background: #fff !important; border: 1px solid var(--border); box-shadow: none !important; transform: none !important; }
-    .skill-card h4 .ic, .cert h4 .ext { color: var(--accent) !important; }
-    .cert h4 .ext { display: none; }
-    .tag { background: #f4f4f5; border: 1px solid var(--border); color: var(--text); }
-    .cert .badge { background: #f4f4f5; }
-
-    /* contact */
-    .contact h2.big { font-size: 16pt; color: var(--accent); }
-    .contact p { font-size: 10pt; }
-    .social a { border: 1px solid var(--border); background: #fff; color: var(--text) !important; }
-
-    /* avoid awkward page breaks (not on whole sections — that wastes space) */
-    .tl-item, .skill-card, .cert, .fact, .about-top { page-break-inside: avoid; }
-    h2, h3 { page-break-after: avoid; }
+    /* main */
+    #print-cv .pcv-main { margin-left: 33%; padding: 0 12mm 0 9mm; }
+    #print-cv .pcv-main h2 { font-size: 11pt; text-transform: uppercase; letter-spacing: 1px; color: #14141a; border-bottom: 1px solid #e3e3e6; padding-bottom: 4px; margin-bottom: 9px; }
+    #print-cv .pcv-job { margin-bottom: 10px; page-break-inside: avoid; }
+    #print-cv .pcv-job .top { display: flex; justify-content: space-between; align-items: baseline; }
+    #print-cv .pcv-job .title { font-weight: 700; font-size: 10.5pt; }
+    #print-cv .pcv-job .date { color: #64646b; font-size: 8.7pt; white-space: nowrap; padding-left: 8px; }
+    #print-cv .pcv-job .org { color: #64646b; font-size: 9.3pt; margin-bottom: 3px; }
+    #print-cv .pcv-job ul { margin: 2px 0 0 16px; }
+    #print-cv .pcv-job li { margin-bottom: 2px; }
   }
 </style>
 <noscript><style>.reveal{opacity:1 !important;transform:none !important;}</style></noscript>
@@ -566,6 +539,9 @@
   </div>
 </div>
 
+<!-- Print-only CV (built dynamically from the page content by JS on print) -->
+<div id="print-cv" aria-hidden="true"></div>
+
 <footer>
   <div class="wrap">© <span id="year"></span> Argyrios Gerostergiou</div>
 </footer>
@@ -576,8 +552,65 @@
   const nav = document.getElementById('nav');
   addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12), { passive: true });
 
-  // Download CV = print the page (the print stylesheet renders it as a CV).
-  document.getElementById('downloadCv').addEventListener('click', () => window.print());
+  // Download CV = build the two-column sidebar CV from the LIVE page content, then print.
+  // This keeps a single source of truth: edit the page and the CV updates automatically.
+  const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const mailIcon = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#14141a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+  const liIcon = '<svg viewBox="0 0 24 24" width="13" height="13" fill="#14141a"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>';
+
+  function buildPrintCv() {
+    const name = document.querySelector('.hero h1').textContent.trim();
+    const photo = (document.querySelector('.about-photo') || {}).getAttribute ? document.querySelector('.about-photo').getAttribute('src') : '';
+    const emailEl = document.getElementById('emailLink');
+    const email = emailEl ? (emailEl.dataset.email || emailEl.getAttribute('href').replace('mailto:', '')) : '';
+    const liEl = document.querySelector('#contact a[href*="linkedin.com"]');
+    const liHref = liEl ? liEl.getAttribute('href') : '#';
+    const liHandle = liHref.replace(/\/+$/, '').split('/').pop();
+    const eduItem = document.querySelector('#education .tl-item');
+
+    const certGroups = document.querySelectorAll('#skills .certs');
+    const general = certGroups[0] ? [...certGroups[0].querySelectorAll('.cert')] : [];
+    const anthropic = certGroups[1] ? [...certGroups[1].querySelectorAll('.cert')] : [];
+
+    const certName = c => c.querySelector('h4').textContent.replace('↗', '').trim();
+    const certMeta = c => c.querySelector('p').textContent.trim();
+
+    const generalHtml = general.map(c =>
+      `<div class="pcv-cert"><span class="c-name">${esc(certName(c))}</span><span class="c-meta">${esc(certMeta(c))}</span></div>`
+    ).join('');
+
+    let anthropicHtml = '';
+    if (anthropic.length) {
+      const names = anthropic.map(certName);
+      const issued = (certMeta(anthropic[0]).split('Issued ').pop() || '').trim();
+      anthropicHtml = `<div class="pcv-cert"><span class="c-name">Anthropic Academy</span><span class="c-meta">${esc(issued)}</span><span class="c-sub">${esc(names.join(' · '))}</span></div>`;
+    }
+
+    const expHtml = [...document.querySelectorAll('#experience .tl-item')].map(it => {
+      const bullets = [...it.querySelectorAll('li')].map(li => `<li>${esc(li.textContent.trim())}</li>`).join('');
+      return `<div class="pcv-job"><div class="top"><span class="title">${esc(it.querySelector('h3').textContent.trim())}</span><span class="date">${esc(it.querySelector('.date').textContent.trim())}</span></div><div class="org">${esc(it.querySelector('.org').textContent.trim())}</div><ul>${bullets}</ul></div>`;
+    }).join('');
+
+    const edu = eduItem
+      ? `<span class="deg">${esc(eduItem.querySelector('h3').textContent.trim())}</span><span class="meta">${esc(eduItem.querySelector('.org').textContent.trim())}</span><span class="meta">${esc(eduItem.querySelector('.date').textContent.trim())}</span>`
+      : '';
+
+    document.getElementById('print-cv').innerHTML =
+      '<aside class="pcv-sidebar">' +
+        `<div class="pcv-name">${esc(name)}</div>` +
+        `<div class="pcv-photo"><img src="${esc(photo)}" alt="${esc(name)}"></div>` +
+        '<div class="pcv-block"><h3>Contact</h3>' +
+          `<div class="pcv-contact">${mailIcon}<a href="mailto:${esc(email)}">${esc(email)}</a></div>` +
+          `<div class="pcv-contact">${liIcon}<a href="${esc(liHref)}">${esc(liHandle)}</a></div>` +
+        '</div>' +
+        `<div class="pcv-block pcv-edu"><h3>Education</h3>${edu}</div>` +
+        `<div class="pcv-block"><h3>Certifications</h3>${generalHtml}${anthropicHtml}</div>` +
+      '</aside>' +
+      `<div class="pcv-main"><h2>Experience</h2>${expHtml}</div>`;
+  }
+
+  document.getElementById('downloadCv').addEventListener('click', () => { buildPrintCv(); window.print(); });
+  addEventListener('beforeprint', buildPrintCv);   // also covers Ctrl+P
 
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
