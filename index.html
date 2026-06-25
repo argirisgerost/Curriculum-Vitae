@@ -492,7 +492,7 @@
 <footer>
   <div class="wrap footer-inner">
     <span>© <span id="year"></span> Argyrios Gerostergiou</span>
-    <label class="otw-toggle" title="Toggle the 'Open to work' badge">
+    <label class="otw-toggle" id="otwAdmin" title="Toggle the 'Open to work' badge" hidden>
       <input type="checkbox" id="otwToggle" />
       <span class="switch"></span>
       <span class="otw-label">Open to work badge</span>
@@ -562,13 +562,37 @@
   modal.addEventListener('click', e => { if (e.target.hasAttribute('data-close')) closePdf(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closePdf(); });
 
-  // "Open to work" badge toggle — persists the choice in this browser.
+  /* ============================================================
+     "Open to work" badge
+     ------------------------------------------------------------
+     PUBLIC default — this is what every visitor sees on the live
+     site. Set it to false when you're no longer looking, then
+     redeploy. (On a static site this flag is the source of truth.)
+     ============================================================ */
+  const PUBLIC_OPEN_TO_WORK = true;
+
   const badge = document.getElementById('openToWork');
   const otw = document.getElementById('otwToggle');
-  const saved = localStorage.getItem('openToWork');
-  const isOn = saved === null ? true : saved === 'true';   // default: shown
+  const otwAdmin = document.getElementById('otwAdmin');
+
+  // Hidden admin mode: visit your site once with #admin in the URL
+  // (e.g. https://your-site/#admin). It's remembered on THIS device only,
+  // so the toggle stays hidden from every normal visitor. Use #exitadmin to hide it again.
+  if (location.hash === '#admin') localStorage.setItem('otwAdmin', '1');
+  if (location.hash === '#exitadmin') localStorage.removeItem('otwAdmin');
+  const isAdmin = localStorage.getItem('otwAdmin') === '1';
+
+  // What this browser shows: visitors always see the public default.
+  // Admins can flip a local preview override without affecting anyone else.
+  let state = PUBLIC_OPEN_TO_WORK;
+  if (isAdmin) {
+    otwAdmin.hidden = false;
+    const override = localStorage.getItem('openToWork');
+    if (override !== null) state = override === 'true';
+  }
+
   function applyOtw(on) { badge.style.display = on ? '' : 'none'; otw.checked = on; }
-  applyOtw(isOn);
+  applyOtw(state);
   otw.addEventListener('change', () => {
     localStorage.setItem('openToWork', otw.checked);
     applyOtw(otw.checked);
