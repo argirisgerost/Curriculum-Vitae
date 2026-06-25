@@ -8,10 +8,19 @@
 <title>Argyrios Gerostergiou · Software Engineer in Test</title>
 <meta name="description" content="Software Engineer in Test — manual & automated testing across front-end (Playwright/TypeScript) and back-end (C#/xUnit/WireMock)." />
 
-<!-- ============ Open Graph / link preview (edit when you have a live URL) ============ -->
+<!-- ============ Open Graph / link preview ============
+     NOTE: After deploying, change og:image and twitter:image to the FULL absolute URL
+     (e.g. https://your-site.com/og-image.png) — LinkedIn/Slack require absolute URLs. -->
 <meta property="og:title" content="Argyrios Gerostergiou · Software Engineer in Test" />
 <meta property="og:description" content="Ensuring high-quality software through thorough manual and automated testing." />
 <meta property="og:type" content="website" />
+<meta property="og:image" content="og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Argyrios Gerostergiou · Software Engineer in Test" />
+<meta name="twitter:description" content="Ensuring high-quality software through thorough manual and automated testing." />
+<meta name="twitter:image" content="og-image.png" />
 
 <style>
   /* ===================== THEME ===================== */
@@ -74,6 +83,7 @@
   nav.links { display: flex; gap: 24px; }
   nav.links a { color: var(--muted); font-size: .92rem; font-weight: 500; transition: color .2s; }
   nav.links a:hover { color: var(--text); }
+  nav.links a.active { color: var(--accent-2); }
   .nav-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
 
   /* ===================== HERO ===================== */
@@ -236,6 +246,7 @@
     </p>
     <div class="cta-row">
       <a href="#experience" class="btn primary">View experience →</a>
+      <a href="Argyrios-Gerostergiou-CV.pdf" class="btn ghost" download>Download CV ↓</a>
       <a href="#contact" class="btn ghost">Get in touch</a>
     </div>
   </div>
@@ -265,7 +276,7 @@
     <div class="facts">
       <div class="fact"><div class="big">5+ yrs</div><div class="lbl">In software testing</div></div>
       <div class="fact"><div class="big">C# · TS</div><div class="lbl">Primary stacks</div></div>
-      <div class="fact"><div class="big">F/E + B/E</div><div class="lbl">Full-stack QA coverage</div></div>
+      <div class="fact"><div class="big">Full-stack QA</div><div class="lbl">Front-end &amp; back-end</div></div>
     </div>
   </div>
 </section>
@@ -516,6 +527,21 @@
     entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Scrollspy — highlight the nav link of the section currently in view.
+  const navMap = {};
+  document.querySelectorAll('nav.links a[href^="#"]').forEach(a => { navMap[a.getAttribute('href').slice(1)] = a; });
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        Object.values(navMap).forEach(a => a.classList.remove('active'));
+        if (navMap[en.target.id]) navMap[en.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  ['about', 'experience', 'education', 'skills', 'contact'].forEach(id => {
+    const el = document.getElementById(id); if (el) spy.observe(el);
+  });
 
   // PDF popup viewer — intercepts clicks on local .pdf certificate links and
   // shows them in an on-page overlay. External links (e.g. Credly) are left alone.
