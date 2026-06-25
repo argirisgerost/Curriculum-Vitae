@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0a0a0b" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23141416'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI,Arial,sans-serif' font-size='38' font-weight='700' fill='%23ffffff'%3EA%3C/text%3E%3C/svg%3E" />
 <title>Argyrios Gerostergiou · Software Engineer in Test</title>
-<meta name="description" content="Software Engineer in Test — manual & automated testing across front-end (Playwright/TypeScript) and back-end (C#/xUnit/WireMock)." />
+<meta name="description" content="Argyrios Gerostergiou, Software Engineer in Test. Manual and automated testing across the front-end (TypeScript and Playwright) and back-end (C# and xUnit)." />
 
 <!-- ============ Open Graph / link preview ============
      NOTE: After deploying, change og:image and twitter:image to the FULL absolute URL
@@ -222,6 +222,7 @@
     html { scroll-behavior: auto; }
   }
 </style>
+<noscript><style>.reveal{opacity:1 !important;transform:none !important;}</style></noscript>
 </head>
 <body>
 
@@ -509,7 +510,7 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   const nav = document.getElementById('nav');
-  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12));
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12), { passive: true });
 
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
@@ -533,10 +534,17 @@
     });
   });
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+    // Failsafe: if anything hasn't revealed shortly after load, show it anyway.
+    setTimeout(() => reveals.forEach(el => el.classList.add('in')), 2500);
+  } else {
+    reveals.forEach(el => el.classList.add('in'));   // very old browsers: show immediately
+  }
 
   // Scrollspy — highlight the nav link of the section currently in view.
   const navMap = {};
