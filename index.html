@@ -451,9 +451,9 @@
     <h2 class="big">Let's connect.</h2>
     <p>Always happy to chat about software testing, automation, or anything in between. Feel free to reach out.</p>
     <div class="social">
-      <a href="mailto:argirisgerost@gmail.com">
+      <a href="mailto:argirisgerost@gmail.com" id="emailLink" data-email="argirisgerost@gmail.com">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-        Email
+        <span class="lbl">Email</span>
       </a>
       <a href="https://www.linkedin.com/in/argiris-gerostergiou/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
@@ -541,6 +541,38 @@
 
   modal.addEventListener('click', e => { if (e.target.hasAttribute('data-close')) closePdf(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closePdf(); });
+
+  // Email button: keep the mailto (opens a mail app where one is configured),
+  // but always copy the address to the clipboard and confirm, so the button
+  // never feels "dead" on machines without a default mail client.
+  const emailLink = document.getElementById('emailLink');
+  if (emailLink) {
+    const lbl = emailLink.querySelector('.lbl');
+    let resetTimer;
+    function copyEmail(addr) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(addr).then(() => true).catch(() => legacyCopy(addr));
+      }
+      return Promise.resolve(legacyCopy(addr));
+    }
+    function legacyCopy(addr) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = addr; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch (_) { return false; }
+    }
+    emailLink.addEventListener('click', async () => {
+      const addr = emailLink.dataset.email;
+      const ok = await copyEmail(addr);
+      clearTimeout(resetTimer);
+      lbl.textContent = ok ? 'Copied!' : addr;        // always give feedback
+      resetTimer = setTimeout(() => { lbl.textContent = 'Email'; }, ok ? 1600 : 4000);
+    });
+  }
 </script>
 </body>
 </html>
