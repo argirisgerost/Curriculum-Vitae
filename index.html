@@ -99,6 +99,7 @@
   .btn {
     display: inline-flex; align-items: center; gap: 9px;
     padding: 12px 22px; border-radius: 12px; font-weight: 600; font-size: .95rem;
+    font-family: inherit; cursor: pointer; color: var(--text);
     border: 1px solid var(--border); transition: transform .15s, background .2s, border-color .2s;
   }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: #0a0a0b; }
@@ -221,6 +222,78 @@
     .reveal { opacity: 1; transform: none; transition: none; }
     html { scroll-behavior: auto; }
   }
+
+  /* ===================== PRINT / CV ===================== */
+  /* "Download CV" calls window.print(); these rules turn the live page into a
+     clean, light, single-source CV so the PDF always matches the site content. */
+  @media print {
+    @page { margin: 14mm; }
+    :root {
+      --bg: #ffffff; --bg-soft: #ffffff; --card: #ffffff; --card-2: #f4f4f5;
+      --border: #d8d8dc; --text: #1c2230; --muted: #555b66;
+      --accent: #111317; --accent-2: #111317; --accent-dim: #f0f0f2; --shadow: none;
+    }
+    html, body { background: #fff !important; color: var(--text); line-height: 1.4; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body::before { display: none !important; }
+    header.nav, .pdf-modal, footer { display: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    a { color: var(--text) !important; text-decoration: none; }
+
+    .wrap { max-width: none; padding: 0; }
+    section { padding: 8px 0 !important; }
+
+    /* header block */
+    .hero { padding: 0 0 6px !important; }
+    .hero .eyebrow { display: none; }
+    .hero h1 { font-size: 24pt !important; color: var(--accent) !important; filter: none !important; -webkit-text-fill-color: currentColor !important; margin-bottom: 2px; }
+    .hero h1 .accent { background: none !important; color: var(--accent) !important; -webkit-text-fill-color: currentColor !important; }
+    .hero .tagline { font-size: 12pt !important; margin-top: 4px; }
+    .hero .lead { font-size: 10pt !important; margin-top: 6px; color: var(--muted); }
+
+    /* section titles: left aligned, no decorative rules */
+    .section-title { justify-content: flex-start; gap: 0; margin-bottom: 8px; }
+    .section-title::before { display: none; }
+    .section-title .rule { display: none; }
+    .section-title h2 { font-size: 12.5pt; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* about */
+    .about-top { gap: 18px; }
+    .about-photo { width: 28mm; height: 28mm; box-shadow: none; border: 1px solid var(--border); }
+    .about p { font-size: 10pt; }
+    .facts { gap: 10px; margin-top: 14px; }
+    .fact { background: #fff; border: 1px solid var(--border); padding: 10px 12px; }
+    .fact .big { font-size: 1.1rem; color: var(--accent); }
+
+    /* timeline */
+    .tl-item { padding-bottom: 12px; }
+    .tl-item h3 { font-size: 11pt; }
+    .tl-item li, .tl-item .org { font-size: 9.5pt; }
+    .tl-item::before { background: #fff; border-color: var(--accent); }
+    .tl-item::after { background: var(--border); }
+    .tl-item .date, .tl-item li::before { color: var(--accent) !important; }
+
+    /* skills + certs — force multi-column (print width is below the mobile breakpoint) */
+    .facts { grid-template-columns: repeat(3, 1fr) !important; }
+    .skill-groups { grid-template-columns: repeat(2, 1fr) !important; }
+    .certs { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+    .skill-groups { gap: 10px; }
+    .skill-card { padding: 12px 14px !important; }
+    .cert { padding: 10px 12px !important; }
+    .skill-card, .cert { background: #fff !important; border: 1px solid var(--border); box-shadow: none !important; transform: none !important; }
+    .skill-card h4 .ic, .cert h4 .ext { color: var(--accent) !important; }
+    .cert h4 .ext { display: none; }
+    .tag { background: #f4f4f5; border: 1px solid var(--border); color: var(--text); }
+    .cert .badge { background: #f4f4f5; }
+
+    /* contact */
+    .contact h2.big { font-size: 16pt; color: var(--accent); }
+    .contact p { font-size: 10pt; }
+    .social a { border: 1px solid var(--border); background: #fff; color: var(--text) !important; }
+
+    /* avoid awkward page breaks (not on whole sections — that wastes space) */
+    .tl-item, .skill-card, .cert, .fact, .about-top { page-break-inside: avoid; }
+    h2, h3 { page-break-after: avoid; }
+  }
 </style>
 <noscript><style>.reveal{opacity:1 !important;transform:none !important;}</style></noscript>
 </head>
@@ -238,7 +311,7 @@
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
       </nav>
-      <a href="Argyrios-Gerostergiou-CV.pdf" class="btn primary nav-cv" download>Download CV ↓</a>
+      <button type="button" class="btn primary nav-cv" id="downloadCv">Download CV ↓</button>
       <button class="nav-toggle" aria-label="Menu" aria-expanded="false" id="navToggle">☰</button>
     </div>
   </div>
@@ -502,6 +575,9 @@
 
   const nav = document.getElementById('nav');
   addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12), { passive: true });
+
+  // Download CV = print the page (the print stylesheet renders it as a CV).
+  document.getElementById('downloadCv').addEventListener('click', () => window.print());
 
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
