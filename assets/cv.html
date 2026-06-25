@@ -15,10 +15,18 @@
 
   /* ---------- LEFT SIDEBAR ---------- */
   .sidebar { position: absolute; top: 0; left: 0; width: var(--sideW); padding: 0 8mm 0 12mm; }
-  .sidebar .name { font-size: 21pt; font-weight: 800; letter-spacing: -.5px; line-height: 1.05; color: var(--accent); }
-  .sidebar .role { font-weight: 700; font-size: 11pt; margin-top: 4px; color: var(--text); }
+  .sidebar .name { font-size: 17pt; font-weight: 800; letter-spacing: -.3px; line-height: 1.1; color: var(--accent); }
 
-  .side-block { margin-top: 18px; }
+  /* photo / avatar — replace the initials by putting an <img> inside .photo */
+  .photo {
+    width: 32mm; height: 32mm; border-radius: 50%; margin: 12px 0 4px;
+    background: var(--accent); color: #fff; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22pt; font-weight: 800; border: 2px solid #d9d3ee;
+  }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .side-block { margin-top: 16px; }
   .side-block h3 { font-size: 9.5pt; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #d9d3ee; }
 
   .contact-item { font-size: 9pt; color: var(--text); margin-bottom: 6px; word-break: break-word; }
@@ -51,7 +59,9 @@
   <!-- ===================== SIDEBAR ===================== -->
   <aside class="sidebar">
     <div class="name">Argyrios Gerostergiou</div>
-    <div class="role">Software Engineer in Test</div>
+    <!-- To use your real photo: save it as assets/photo.jpg and replace the line below with:
+         <div class="photo"><img src="photo.jpg" alt="Argyrios Gerostergiou" /></div> -->
+    <div class="photo">AG</div>
 
     <div class="side-block">
       <h3>Contact</h3>
@@ -111,11 +121,14 @@
         <div class="top"><span class="title">Junior Software Engineer in Test</span><span class="date">Jan 2024 – Apr 2026</span></div>
         <div class="org">Kaizen Gaming · Full-time</div>
         <ul>
-          <li>Performed Test Analysis in Jira, defining scenarios with precise preconditions, steps, and expected results, and managed tickets throughout the sprint.</li>
-          <li>Built Integration and Contract tests in C# / xUnit to validate endpoint functionality and protect API contracts.</li>
-          <li>Mocked dependencies with the C# Moq library and WireMock, and ran scenario-based suites in containerised environments (Podman, databases, RabbitMQ) for isolated testing.</li>
+          <li>Managed tickets in Jira, ensuring seamless coordination and tracking throughout the sprint process.</li>
+          <li>Performed Test Analysis in Jira, defining scenarios with precise preconditions, steps, and expected results.</li>
+          <li>Built Integration tests in C# / xUnit to validate endpoint functionality.</li>
+          <li>Built Contract tests in C# / xUnit to ensure endpoint contracts are never broken during development or deployment.</li>
+          <li>Mocked endpoint requests and responses with the C# Moq library and WireMock, enabling isolated automated tests.</li>
+          <li>Ran scenario-based suites in containerised environments with Podman, databases, and RabbitMQ for fully isolated testing.</li>
           <li>Built Component tests with Playwright &amp; TypeScript to validate component functionality.</li>
-          <li>Used Git and GitLab (merge requests) within the full Scrum cycle to ensure code quality.</li>
+          <li>Used Git and GitLab merge requests within the full Scrum cycle to ensure code quality and collaborative development.</li>
         </ul>
       </div>
 
@@ -123,18 +136,20 @@
         <div class="top"><span class="title">Junior Software Engineer in Test</span><span class="date">Jan 2022 – Jan 2024</span></div>
         <div class="org">Dataverse Ltd · Full-time</div>
         <ul>
-          <li>Built and maintained a C# + Selenium automation framework from scratch for stability, scalability, and effectiveness.</li>
-          <li>Led the test automation team informally, training new members and reviewing their automation code.</li>
-          <li>Used Redmine for issues/bugs, TestRail for test cases, and Postman for API testing.</li>
-          <li>Worked with Git for version control and the Scrum process for Agile development.</li>
+          <li>Developed a C# and Selenium automation framework from scratch and maintained it for stability, scalability, and effectiveness.</li>
+          <li>Led the test automation engineering team as the informal manager.</li>
+          <li>Trained new team members on the framework, tools, and testing workflow, and reviewed their automation code.</li>
+          <li>Used Redmine to create issues and report bugs, and TestRail to create, analyse, and update test cases.</li>
+          <li>Used Postman for API testing, Git for version control, and the Scrum process for Agile development.</li>
         </ul>
       </div>
 
       <div class="job">
-        <div class="top"><span class="title">Junior Software Engineer in Test (Internship)</span><span class="date">Jul 2021 – Jan 2022</span></div>
-        <div class="org">Dataverse Ltd</div>
+        <div class="top"><span class="title">Junior Software Engineer in Test</span><span class="date">Jul 2021 – Jan 2022</span></div>
+        <div class="org">Dataverse Ltd · Internship</div>
         <ul>
-          <li>Started building hands-on test automation experience that led to a full-time role.</li>
+          <li>Contributed to automating test cases while learning the team's tools and QA workflow.</li>
+          <li>Built hands-on test automation experience that led to a full-time role.</li>
         </ul>
       </div>
     </section>
