@@ -76,13 +76,6 @@
 
   /* ===================== HERO ===================== */
   .hero { padding: 96px 0 72px; }
-  .pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: .8rem; color: var(--accent-2); font-weight: 600;
-    background: var(--accent-dim); border: 1px solid var(--border);
-    padding: 6px 14px; border-radius: 999px; margin-bottom: 22px;
-  }
-  .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.18); }
   .hero h1 { font-size: clamp(2.3rem, 7.6vw, 4.55rem); line-height: 1.06; font-weight: 800; letter-spacing: -1.5px; }
   .hero h1 .accent { background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .hero p.lead { color: var(--muted); font-size: clamp(1.05rem, 2.5vw, 1.25rem); max-width: 100%; margin-top: 20px; }
@@ -113,14 +106,19 @@
   .fact .lbl { color: var(--muted); font-size: .85rem; margin-top: 4px; }
 
   /* Timeline (experience + education) */
-  .timeline { position: relative; border-left: 2px solid var(--border); margin-left: 8px; }
+  .timeline { position: relative; margin-left: 8px; }
   .tl-item { position: relative; padding: 0 0 38px 30px; }
   .tl-item:last-child { padding-bottom: 0; }
-  .tl-item::before {
-    content: ""; position: absolute; left: -9px; top: 4px;
+  .tl-item::before {            /* dot */
+    content: ""; position: absolute; left: 0; top: 4px;
     width: 16px; height: 16px; border-radius: 50%;
-    background: var(--bg); border: 3px solid var(--accent);
+    background: var(--bg); border: 3px solid var(--accent); z-index: 1;
   }
+  .tl-item::after {             /* connector line: starts at this dot, reaches the next */
+    content: ""; position: absolute; left: 7px; top: 20px; bottom: -4px;
+    width: 2px; background: var(--border);
+  }
+  .tl-item:last-child::after { display: none; }
   .tl-item .date { font-family: ui-monospace, monospace; font-size: .8rem; color: var(--accent-2); letter-spacing: .5px; }
   .tl-item h3 { font-size: 1.15rem; margin: 6px 0 2px; font-weight: 700; }
   .tl-item .org { color: var(--muted); font-size: .95rem; margin-bottom: 10px; }
@@ -181,16 +179,7 @@
   }
   .social a:hover { border-color: var(--accent); color: var(--accent-2); transform: translateY(-2px); }
 
-  footer { padding: 28px 0; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--border); margin-top: 30px; }
-  .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .otw-toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
-  .otw-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
-  .otw-toggle .switch { position: relative; width: 40px; height: 22px; border-radius: 999px; background: var(--card-2); border: 1px solid var(--border); transition: background .2s, border-color .2s; flex: none; }
-  .otw-toggle .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); transition: transform .2s, background .2s; }
-  .otw-toggle input:checked + .switch { background: var(--accent-dim); border-color: var(--accent); }
-  .otw-toggle input:checked + .switch::after { transform: translateX(18px); background: var(--accent-2); }
-  .otw-toggle input:focus-visible + .switch { box-shadow: 0 0 0 3px var(--accent-dim); }
-  .otw-toggle .otw-label { color: var(--muted); font-size: .85rem; }
+  footer { text-align: center; padding: 40px 0; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--border); margin-top: 30px; }
 
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
   .reveal.in { opacity: 1; transform: none; }
@@ -235,7 +224,6 @@
 <a id="top"></a>
 <section class="hero">
   <div class="wrap reveal">
-    <span class="pill" id="openToWork"><span class="dot"></span> Open to work</span>
     <h1>I'm <span class="accent">Argyrios Gerostergiou</span>, and I make software reliable.</h1>
     <p class="lead">
       Software Engineer in Test ensuring high-quality software through thorough manual and
@@ -269,13 +257,6 @@
       WireMock, and run scenario-based suites in containerised environments with Podman, real
       databases, and RabbitMQ. On the front-end I use Playwright with TypeScript for component
       testing.
-    </p>
-    <p>
-      Earlier in my career I built a C# and Selenium automation framework from scratch, maintained
-      it for stability and scale, and led the automation team while mentoring new engineers and
-      reviewing their code. I work the full Scrum cycle and rely on Git and GitLab for version
-      control and collaborative merge requests, always aiming to make quality a shared
-      responsibility rather than a final gate.
     </p>
     <div class="facts">
       <div class="fact"><div class="big">5+ yrs</div><div class="lbl">In software testing</div></div>
@@ -490,14 +471,7 @@
 </div>
 
 <footer>
-  <div class="wrap footer-inner">
-    <span>© <span id="year"></span> Argyrios Gerostergiou</span>
-    <label class="otw-toggle" id="otwAdmin" title="Toggle the 'Open to work' badge" hidden>
-      <input type="checkbox" id="otwToggle" />
-      <span class="switch"></span>
-      <span class="otw-label">Open to work badge</span>
-    </label>
-  </div>
+  <div class="wrap">© <span id="year"></span> Argyrios Gerostergiou</div>
 </footer>
 
 <script>
@@ -561,42 +535,6 @@
 
   modal.addEventListener('click', e => { if (e.target.hasAttribute('data-close')) closePdf(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closePdf(); });
-
-  /* ============================================================
-     "Open to work" badge
-     ------------------------------------------------------------
-     PUBLIC default — this is what every visitor sees on the live
-     site. Set it to false when you're no longer looking, then
-     redeploy. (On a static site this flag is the source of truth.)
-     ============================================================ */
-  const PUBLIC_OPEN_TO_WORK = true;
-
-  const badge = document.getElementById('openToWork');
-  const otw = document.getElementById('otwToggle');
-  const otwAdmin = document.getElementById('otwAdmin');
-
-  // Hidden admin mode: visit your site once with #admin in the URL
-  // (e.g. https://your-site/#admin). It's remembered on THIS device only,
-  // so the toggle stays hidden from every normal visitor. Use #exitadmin to hide it again.
-  if (location.hash === '#admin') localStorage.setItem('otwAdmin', '1');
-  if (location.hash === '#exitadmin') localStorage.removeItem('otwAdmin');
-  const isAdmin = localStorage.getItem('otwAdmin') === '1';
-
-  // What this browser shows: visitors always see the public default.
-  // Admins can flip a local preview override without affecting anyone else.
-  let state = PUBLIC_OPEN_TO_WORK;
-  if (isAdmin) {
-    otwAdmin.hidden = false;
-    const override = localStorage.getItem('openToWork');
-    if (override !== null) state = override === 'true';
-  }
-
-  function applyOtw(on) { badge.style.display = on ? '' : 'none'; otw.checked = on; }
-  applyOtw(state);
-  otw.addEventListener('change', () => {
-    localStorage.setItem('openToWork', otw.checked);
-    applyOtw(otw.checked);
-  });
 </script>
 </body>
 </html>
