@@ -3,145 +3,166 @@
 <head>
 <meta charset="UTF-8" />
 <style>
-  @page { size: A4; margin: 14mm 15mm; }
+  @page { size: A4; margin: 14mm 0; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root { --accent: #6d28d9; --text: #1c2230; --muted: #5b6577; --line: #e2e5ec; }
+  :root { --accent: #6d28d9; --accent-2: #7c4ddb; --text: #1c2230; --muted: #5b6577; --line: #e2e5ec; --side: #f4f2fb; --sideW: 33%; }
   html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  body { font-family: 'Segoe UI', Arial, Helvetica, sans-serif; color: var(--text); font-size: 10.5pt; line-height: 1.45; }
+  body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif; color: var(--text);
+    font-size: 10.5pt; line-height: 1.45; position: relative;
+    /* continuous left sidebar stripe on every page */
+    background: linear-gradient(to right, var(--side) 0 var(--sideW), #fff var(--sideW) 100%);
+  }
 
-  header { border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 14px; }
-  header h1 { font-size: 24pt; font-weight: 800; letter-spacing: -.5px; }
-  header .role { color: var(--accent); font-weight: 700; font-size: 12pt; margin-top: 2px; }
-  header .contact { margin-top: 8px; color: var(--muted); font-size: 9.5pt; }
-  header .contact a { color: var(--muted); text-decoration: none; }
-  header .contact span { margin: 0 6px; color: var(--line); }
+  /* ---------- LEFT SIDEBAR (page 1 only) ---------- */
+  .sidebar { position: absolute; top: 0; left: 0; width: var(--sideW); padding: 0 8mm 0 12mm; }
+  .sidebar .name { font-size: 22pt; font-weight: 800; letter-spacing: -.5px; line-height: 1.05; color: var(--accent); }
+  .sidebar .role { font-weight: 700; font-size: 11pt; margin-top: 4px; color: var(--text); }
 
-  section { margin-top: 14px; }
-  h2 { font-size: 11pt; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-bottom: 8px; }
+  .side-block { margin-top: 20px; }
+  .side-block h3 { font-size: 9.5pt; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid #d9d3ee; }
 
-  .summary { color: var(--text); }
+  .contact-item { font-size: 9pt; color: var(--text); margin-bottom: 5px; word-break: break-word; }
+  .contact-item .k { display: block; color: var(--muted); font-size: 7.5pt; text-transform: uppercase; letter-spacing: .5px; }
+  .contact-item a { color: var(--text); text-decoration: none; }
+
+  .cert { margin-bottom: 9px; }
+  .cert .c-name { font-weight: 700; font-size: 9pt; display: block; }
+  .cert .c-meta { color: var(--muted); font-size: 8pt; }
+  .cert .c-sub { color: var(--muted); font-size: 7.6pt; margin-top: 2px; line-height: 1.35; }
+
+  /* ---------- MAIN COLUMN ---------- */
+  .main { margin-left: var(--sideW); padding: 0 12mm 0 9mm; }
+  .main section { margin-bottom: 14px; }
+  .main h2 { font-size: 11pt; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-bottom: 8px; }
 
   .job { margin-bottom: 11px; page-break-inside: avoid; }
   .job .top { display: flex; justify-content: space-between; align-items: baseline; }
   .job .title { font-weight: 700; font-size: 10.8pt; }
-  .job .date { color: var(--muted); font-size: 9pt; white-space: nowrap; }
+  .job .date { color: var(--muted); font-size: 9pt; white-space: nowrap; padding-left: 8px; }
   .job .org { color: var(--muted); font-size: 9.5pt; margin-bottom: 3px; }
   .job ul { margin: 2px 0 0 16px; }
   .job li { margin-bottom: 1.5px; }
 
+  .edu .top { display: flex; justify-content: space-between; align-items: baseline; }
   .edu .title { font-weight: 700; }
   .edu .meta { color: var(--muted); font-size: 9.5pt; }
-
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
-  .skill-row { font-size: 10pt; }
-  .skill-row b { color: var(--text); }
-
-  .certs-list { list-style: none; }
-  .certs-list li { margin-bottom: 3px; }
-  .certs-list .c-name { font-weight: 600; }
-  .certs-list .c-meta { color: var(--muted); font-size: 9pt; }
 </style>
 </head>
 <body>
-  <header>
-    <h1>Argyrios Gerostergiou</h1>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="name">Argyrios Gerostergiou</div>
     <div class="role">Software Engineer in Test</div>
-    <div class="contact">
-      <a href="mailto:argirisgerost@gmail.com">argirisgerost@gmail.com</a>
-      <span>|</span>
-      <a href="https://www.linkedin.com/in/argiris-gerostergiou/">linkedin.com/in/argiris-gerostergiou</a>
-    </div>
-  </header>
 
-  <section>
-    <h2>Profile</h2>
-    <p class="summary">
-      Software Engineer in Test with around five years of experience making software more reliable
-      across both the front-end and back-end. I cover the full quality lifecycle, from analysing
-      requirements and defining clear test scenarios in Jira to designing the automation that keeps
-      them running on every change. Back-end testing in C# with xUnit (integration, contract),
-      isolation with Moq and WireMock, and containerised, scenario-based suites with Podman,
-      databases and RabbitMQ; front-end component testing with Playwright and TypeScript.
-    </p>
-  </section>
-
-  <section>
-    <h2>Experience</h2>
-
-    <div class="job">
-      <div class="top"><span class="title">Software Engineer in Test</span><span class="date">Apr 2026 – Present</span></div>
-      <div class="org">Kaizen Gaming · Full-time</div>
-      <ul>
-        <li>Promoted from Junior Software Engineer in Test, continuing to drive quality across front-end and back-end testing.</li>
-      </ul>
+    <div class="side-block">
+      <h3>Contact</h3>
+      <div class="contact-item">
+        <span class="k">Email</span>
+        <a href="mailto:argirisgerost@gmail.com">argirisgerost@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="k">LinkedIn</span>
+        <a href="https://www.linkedin.com/in/argiris-gerostergiou/">linkedin.com/in/argiris-gerostergiou</a>
+      </div>
     </div>
 
-    <div class="job">
-      <div class="top"><span class="title">Junior Software Engineer in Test</span><span class="date">Jan 2024 – Apr 2026</span></div>
-      <div class="org">Kaizen Gaming · Full-time</div>
-      <ul>
-        <li>Used Jira for ticket management, ensuring seamless coordination and tracking throughout the sprint process.</li>
-        <li>Performed Test Analysis in Jira, defining scenarios with precise preconditions, steps, and expected results.</li>
-        <li>Built Integration Tests in C# / xUnit to validate endpoint functionality.</li>
-        <li>Built Contract Tests in C# / xUnit to ensure endpoint contracts are never broken during development or deployment.</li>
-        <li>Used the C# Moq library and WireMock to mock endpoint requests/responses, enabling isolated automated tests.</li>
-        <li>Used C# and Podman to run automated tests in containerised environments with databases and RabbitMQ for scenario-based, isolated testing.</li>
-        <li>Built Component Tests with Playwright &amp; TypeScript to validate component functionality.</li>
-        <li>Used Git for version control and GitLab to create and review merge requests, ensuring code quality.</li>
-        <li>Participated in the full Scrum cycle: stand-ups, refinements, planning, reviews, and retrospectives.</li>
-      </ul>
+    <div class="side-block">
+      <h3>Certifications</h3>
+      <div class="cert">
+        <span class="c-name">Certificate of Competency in English</span>
+        <span class="c-meta">University of Michigan · May 2011</span>
+      </div>
+      <div class="cert">
+        <span class="c-name">ISTQB® Certified Tester Foundation Level (CTFL)</span>
+        <span class="c-meta">Nov 2022 · ID GRTB-22-CTFL-1073</span>
+      </div>
+      <div class="cert">
+        <span class="c-name">Google AI Essentials</span>
+        <span class="c-meta">Kaizen Gaming · Feb 2026</span>
+      </div>
+      <div class="cert">
+        <span class="c-name">Anthropic Academy</span>
+        <span class="c-meta">Jun 2026</span>
+        <span class="c-sub">Claude 101 · Claude Code 101 · Claude Code in Action · AI Fluency: Framework &amp; Foundations · Introduction to Agent Skills · Introduction to Subagents · AI Capabilities and Limitations</span>
+      </div>
     </div>
+  </aside>
 
-    <div class="job">
-      <div class="top"><span class="title">Junior Software Engineer in Test</span><span class="date">Jan 2022 – Jan 2024</span></div>
-      <div class="org">Dataverse Ltd · Full-time</div>
-      <ul>
-        <li>Developed the automation framework from scratch based on C# and Selenium.</li>
-        <li>Maintained the framework to ensure its stability, scalability, and effectiveness.</li>
-        <li>Led the test automation engineering team as the informal manager.</li>
-        <li>Trained new team members on the automation framework, tools, and testing workflow.</li>
-        <li>Reviewed team members' automation code for the test cases.</li>
-        <li>Used Redmine to create issues and report bugs, and TestRail to create, analyse, and update test cases.</li>
-        <li>Used Postman for API testing, Git for version control, and the Scrum process for Agile development.</li>
-      </ul>
-    </div>
+  <!-- ===================== MAIN ===================== -->
+  <div class="main">
+    <section>
+      <h2>Profile</h2>
+      <p>
+        Software Engineer in Test with around five years of experience making software more reliable
+        across both the front-end and back-end. I cover the full quality lifecycle, from analysing
+        requirements and defining clear test scenarios in Jira to designing the automation that keeps
+        them running on every change. Back-end testing in C# with xUnit (integration, contract),
+        isolation with Moq and WireMock, and containerised, scenario-based suites with Podman,
+        databases and RabbitMQ; front-end component testing with Playwright and TypeScript.
+      </p>
+    </section>
 
-    <div class="job">
-      <div class="top"><span class="title">Junior Software Engineer in Test (Internship)</span><span class="date">Jul 2021 – Jan 2022</span></div>
-      <div class="org">Dataverse Ltd</div>
-      <ul>
-        <li>Started building hands-on test automation experience that led to a full-time role.</li>
-      </ul>
-    </div>
-  </section>
+    <section>
+      <h2>Experience</h2>
 
-  <section class="edu">
-    <h2>Education</h2>
-    <div class="top" style="display:flex;justify-content:space-between;align-items:baseline;">
-      <span class="title">Bachelor's Degree in Computer Science</span>
-      <span class="meta">Sep 2014 – Nov 2022</span>
-    </div>
-    <div class="meta">University of Thessaly</div>
-  </section>
+      <div class="job">
+        <div class="top"><span class="title">Software Engineer in Test</span><span class="date">Apr 2026 – Present</span></div>
+        <div class="org">Kaizen Gaming · Full-time</div>
+        <ul>
+          <li>Promoted from Junior Software Engineer in Test, continuing to drive quality across front-end and back-end testing.</li>
+        </ul>
+      </div>
 
-  <section>
-    <h2>Skills</h2>
-    <div class="grid">
-      <div class="skill-row"><b>Languages:</b> TypeScript, C#, SQL</div>
-      <div class="skill-row"><b>Test Automation:</b> Selenium, Playwright, xUnit, WireMock</div>
-      <div class="skill-row"><b>Testing Types:</b> Test Analysis, Component (FE/BE), Integration, Contract</div>
-      <div class="skill-row"><b>CI/CD, Infra &amp; Tools:</b> Git, GitLab, Podman, RabbitMQ, Jira, TestRail, Redmine, Postman, Scrum/Agile</div>
-    </div>
-  </section>
+      <div class="job">
+        <div class="top"><span class="title">Junior Software Engineer in Test</span><span class="date">Jan 2024 – Apr 2026</span></div>
+        <div class="org">Kaizen Gaming · Full-time</div>
+        <ul>
+          <li>Used Jira for ticket management, ensuring seamless coordination and tracking throughout the sprint process.</li>
+          <li>Performed Test Analysis in Jira, defining scenarios with precise preconditions, steps, and expected results.</li>
+          <li>Built Integration Tests in C# / xUnit to validate endpoint functionality.</li>
+          <li>Built Contract Tests in C# / xUnit to ensure endpoint contracts are never broken during development or deployment.</li>
+          <li>Used the C# Moq library and WireMock to mock endpoint requests/responses, enabling isolated automated tests.</li>
+          <li>Used C# and Podman to run automated tests in containerised environments with databases and RabbitMQ for scenario-based, isolated testing.</li>
+          <li>Built Component Tests with Playwright &amp; TypeScript to validate component functionality.</li>
+          <li>Used Git for version control and GitLab to create and review merge requests, ensuring code quality.</li>
+          <li>Participated in the full Scrum cycle: stand-ups, refinements, planning, reviews, and retrospectives.</li>
+        </ul>
+      </div>
 
-  <section>
-    <h2>Certifications</h2>
-    <ul class="certs-list">
-      <li><span class="c-name">Certificate of Competency in English</span> <span class="c-meta">— University of Michigan · May 2011</span></li>
-      <li><span class="c-name">ISTQB® Certified Tester Foundation Level (CTFL)</span> <span class="c-meta">— Nov 2022 · Credential ID GRTB-22-CTFL-1073</span></li>
-      <li><span class="c-name">Google AI Essentials</span> <span class="c-meta">— Kaizen Gaming · Feb 2026</span></li>
-      <li><span class="c-name">Anthropic Academy</span> <span class="c-meta">— Jun 2026 · Claude 101, Claude Code 101, Claude Code in Action, AI Fluency: Framework &amp; Foundations, Introduction to Agent Skills, Introduction to Subagents, AI Capabilities and Limitations</span></li>
-    </ul>
-  </section>
+      <div class="job">
+        <div class="top"><span class="title">Junior Software Engineer in Test</span><span class="date">Jan 2022 – Jan 2024</span></div>
+        <div class="org">Dataverse Ltd · Full-time</div>
+        <ul>
+          <li>Developed the automation framework from scratch based on C# and Selenium.</li>
+          <li>Maintained the framework to ensure its stability, scalability, and effectiveness.</li>
+          <li>Led the test automation engineering team as the informal manager.</li>
+          <li>Trained new team members on the automation framework, tools, and testing workflow.</li>
+          <li>Reviewed team members' automation code for the test cases.</li>
+          <li>Used Redmine to create issues and report bugs, and TestRail to create, analyse, and update test cases.</li>
+          <li>Used Postman for API testing, Git for version control, and the Scrum process for Agile development.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="top"><span class="title">Junior Software Engineer in Test (Internship)</span><span class="date">Jul 2021 – Jan 2022</span></div>
+        <div class="org">Dataverse Ltd</div>
+        <ul>
+          <li>Started building hands-on test automation experience that led to a full-time role.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="edu">
+      <h2>Education</h2>
+      <div class="top">
+        <span class="title">Bachelor's Degree in Computer Science</span>
+        <span class="meta">Sep 2014 – Nov 2022</span>
+      </div>
+      <div class="meta">University of Thessaly</div>
+    </section>
+  </div>
+
 </body>
 </html>
