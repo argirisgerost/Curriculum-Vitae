@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#0b0f17" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236d28d9'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI,Arial,sans-serif' font-size='38' font-weight='700' fill='%23ffffff'%3EA%3C/text%3E%3C/svg%3E" />
+<meta name="theme-color" content="#0a0a0b" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23141416'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI,Arial,sans-serif' font-size='38' font-weight='700' fill='%23ffffff'%3EA%3C/text%3E%3C/svg%3E" />
 <title>Argyrios Gerostergiou · Software Engineer in Test</title>
 <meta name="description" content="Software Engineer in Test — manual & automated testing across front-end (Playwright/TypeScript) and back-end (C#/xUnit/WireMock)." />
 
@@ -25,16 +25,16 @@
 <style>
   /* ===================== THEME ===================== */
   :root {
-    --bg:        #0b0f17;
-    --bg-soft:   #111827;
-    --card:      #131a26;
-    --card-2:    #18212f;
-    --border:    #243047;
-    --text:      #e6edf6;
-    --muted:     #93a1b5;
-    --accent:    #6d28d9;   /* deep purple — change this one value to re-theme */
-    --accent-2:  #9d7cf0;
-    --accent-dim: rgba(109,40,217,0.18);
+    --bg:        #0a0a0b;
+    --bg-soft:   #141416;
+    --card:      #141416;
+    --card-2:    #1d1d20;
+    --border:    #2c2c30;
+    --text:      #e6e6e8;
+    --muted:     #9a9aa2;
+    --accent:    #ffffff;   /* monochrome: white is the highlight */
+    --accent-2:  #cfcfd4;
+    --accent-dim: rgba(255,255,255,0.10);
     --radius: 16px;
     --maxw: 980px;
     --shadow: 0 12px 40px rgba(0,0,0,0.45);
@@ -91,7 +91,7 @@
   .hero .eyebrow { display: block; color: var(--muted); font-size: clamp(1.05rem, 2.5vw, 1.2rem); font-weight: 400; margin-bottom: 6px; }
   .hero h1 { font-size: clamp(1.5rem, 4vw, 1.95rem); line-height: 1.15; font-weight: 700; letter-spacing: -.5px; }
   .hero .tagline { color: var(--text); font-size: clamp(1.05rem, 2.5vw, 1.2rem); font-weight: 400; margin-top: 10px; }
-  .hero h1 .accent { color: var(--accent-2); background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 14px rgba(124,77,219,0.28)); }
+  .hero h1 .accent { color: var(--accent-2); background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 14px rgba(255,255,255,0.18)); }
   .hero p.lead { color: var(--muted); font-size: clamp(1.05rem, 2.5vw, 1.2rem); font-weight: 400; max-width: 100%; margin-top: 14px; }
   .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
   .btn {
@@ -99,7 +99,7 @@
     padding: 12px 22px; border-radius: 12px; font-weight: 600; font-size: .95rem;
     border: 1px solid var(--border); transition: transform .15s, background .2s, border-color .2s;
   }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #0a0a0b; }
   .btn.primary:hover { background: var(--accent-2); }
   .btn.ghost:hover { border-color: var(--accent); color: var(--accent-2); }
   .btn:active { transform: translateY(1px); }
