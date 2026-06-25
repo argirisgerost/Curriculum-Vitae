@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0b0f17" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236d28d9'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI,Arial,sans-serif' font-size='38' font-weight='700' fill='%23ffffff'%3EA%3C/text%3E%3C/svg%3E" />
 <title>Argyrios Gerostergiou · Software Engineer in Test</title>
 <meta name="description" content="Software Engineer in Test — manual & automated testing across front-end (Playwright/TypeScript) and back-end (C#/xUnit/WireMock)." />
 
@@ -79,7 +81,7 @@
   .hero .eyebrow { display: block; color: var(--muted); font-size: clamp(1rem, 2.4vw, 1.3rem); font-weight: 600; margin-bottom: 8px; }
   .hero h1 { font-size: clamp(2.3rem, 7.6vw, 4.55rem); line-height: 1.06; font-weight: 800; letter-spacing: -1.5px; }
   .hero .tagline { color: var(--text); font-size: clamp(1.2rem, 3vw, 1.7rem); font-weight: 600; margin-top: 16px; letter-spacing: -.3px; }
-  .hero h1 .accent { background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero h1 .accent { color: var(--accent-2); background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
   .hero p.lead { color: var(--muted); font-size: clamp(1.05rem, 2.5vw, 1.25rem); max-width: 100%; margin-top: 20px; }
   .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
   .btn {
@@ -87,7 +89,7 @@
     padding: 12px 22px; border-radius: 12px; font-weight: 600; font-size: .95rem;
     border: 1px solid var(--border); transition: transform .15s, background .2s, border-color .2s;
   }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: #06101f; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
   .btn.primary:hover { background: var(--accent-2); }
   .btn.ghost:hover { border-color: var(--accent); color: var(--accent-2); }
   .btn:active { transform: translateY(1px); }
@@ -124,7 +126,6 @@
   .tl-item .date { font-family: ui-monospace, monospace; font-size: .8rem; color: var(--accent-2); letter-spacing: .5px; }
   .tl-item h3 { font-size: 1.15rem; margin: 6px 0 2px; font-weight: 700; }
   .tl-item .org { color: var(--muted); font-size: .95rem; margin-bottom: 10px; }
-  .tl-item .org .tagline { color: var(--text); }
   .tl-item ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
   .tl-item li { color: var(--muted); font-size: .95rem; position: relative; padding-left: 18px; }
   .tl-item li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
@@ -211,7 +212,7 @@
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
     <a href="#top" class="logo">Port<span>folio</span></a>
-    <button class="nav-toggle" aria-label="Menu" id="navToggle">☰</button>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" id="navToggle">☰</button>
     <nav class="links" id="navLinks">
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
@@ -491,7 +492,10 @@
 
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
-  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
 
   // Smooth-scroll for all in-page anchor links (works even where native hash
   // navigation is blocked, e.g. sandboxed preview iframes).
@@ -504,6 +508,7 @@
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       links.classList.remove('open');       // close mobile menu after a tap
+      toggle.setAttribute('aria-expanded', 'false');
     });
   });
 
